@@ -13,8 +13,9 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-import dogs from './routes/dogs';
-app.use('/dogs', dogs);
+import CourseIndex from './actions/courses/index';
+
+app.get('/courses', CourseIndex.boot(app));
 
 app.get('/hello', (req, res) => {
   res.send('Hello Earth!');

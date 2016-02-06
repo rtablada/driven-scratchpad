@@ -15,16 +15,12 @@ gulp.task('default', cb => {
 });
 
 gulp.task('build', cb => {
-  run('clean', 'flow', 'babel', 'restart', cb);
+  run('clean', 'babel', 'restart', cb);
 });
 
 gulp.task('clean', cb => {
   rimraf(paths.destination, cb);
 });
-
-gulp.task('flow', shell.task([
-  'flow'
-], {ignoreErrors: true}));
 
 gulp.task('babel', shell.task([
   'babel src --out-dir app'
