@@ -21,8 +21,6 @@ export default class Router {
 
     const Action = this.loader.require(`action:${namespace}${this.getModuleName(moduleName)}`);
 
-    console.log(Action);
-
     this.express.use(uri, Action.boot(this.express));
   }
 

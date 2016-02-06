@@ -1,4 +1,15 @@
 export default class Action {
+  beforeHooks = [];
+
+  afterHooks = [
+    function(data) {
+      return new Promise((resolve, reject) => {
+        console.log(this.afterHooks);
+        setTimeout(() => resolve({data}), 6000);
+      });
+    },
+  ];
+
   /**
    * Express Request Object
    */
@@ -20,7 +31,7 @@ export default class Action {
    * Promise aware
    */
   handle() {
-    return {data: this.data()};
+    return this.data();
   }
 
   createMiddleware() {
@@ -28,8 +39,15 @@ export default class Action {
       this.request = req;
 
       Promise.resolve(this.handle()).then((result) => {
-        res.send(result);
+        const finalResult = this.afterHooks.reduce((carry, curr) => {
+          return carry.then((result) => this::curr(result));
+        }, Promise.resolve(result));
+
+        finalResult.then((d) => {
+          res.send(d);
+        });
       });
+
     };
   }
 
