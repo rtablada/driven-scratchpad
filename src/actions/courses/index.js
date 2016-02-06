@@ -1,8 +1,8 @@
-import { createAfterAction } from '../../lib/decorators/action-hook-helpers';
+import { createAfterHook } from '../../lib/decorators/action-hook-helpers';
 
 import Action from '../../lib/action';
 
-const mutData = createAfterAction(function(data) {
+const mutData = createAfterHook(function(data) {
   return new Promise((resolve, reject) => {
     setTimeout(() => resolve({data}), 800);
   });
