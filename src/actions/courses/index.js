@@ -11,7 +11,7 @@ export default class CourseIndex extends Action {
         type: 'courses',
         id: 1,
         attributes: {
-          name: 'Learn Ember',
+          name: this.request.query.name || 'Learn Ember',
         },
       },
     ];
