@@ -20,10 +20,6 @@ const router = new Router(app, new Loader(__dirname));
 
 router.get('/courses', 'courses/index');
 
-app.get('/hello', (req, res) => {
-  res.send('Hello Earth!');
-});
-
 const server = app.listen(3000, function () {
   console.log('Express listening on port 3000');
 });
