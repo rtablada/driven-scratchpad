@@ -1,5 +1,5 @@
 {
-  "name": "es2015",
+  "name": "scratchpad",
   "version": "1.0.0",
   "scripts": {
     "start": "node ./app/index.js"

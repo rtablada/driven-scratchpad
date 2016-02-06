@@ -13,9 +13,12 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-import CourseIndex from './actions/courses/index';
+import Loader from './lib/loader';
+import Router from './lib/router';
 
-app.get('/courses', CourseIndex.boot(app));
+const router = new Router(app, new Loader(__dirname));
+
+router.get('/courses', 'courses/index');
 
 app.get('/hello', (req, res) => {
   res.send('Hello Earth!');
