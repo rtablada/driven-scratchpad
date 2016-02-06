@@ -4,8 +4,7 @@ export default class Action {
   afterHooks = [
     function(data) {
       return new Promise((resolve, reject) => {
-        console.log(this.afterHooks);
-        setTimeout(() => resolve({data}), 6000);
+        setTimeout(() => resolve({data}), 500);
       });
     },
   ];
@@ -38,16 +37,13 @@ export default class Action {
     return (req, res) => {
       this.request = req;
 
-      Promise.resolve(this.handle()).then((result) => {
-        const finalResult = this.afterHooks.reduce((carry, curr) => {
-          return carry.then((result) => this::curr(result));
-        }, Promise.resolve(result));
+      const finalResult = [this.handle, ...this.afterHooks].reduce((carry, curr) => {
+        return carry.then((result) => this::curr(result));
+      }, Promise.resolve());
 
-        finalResult.then((d) => {
-          res.send(d);
-        });
+      finalResult.then((d) => {
+        res.send(d);
       });
-
     };
   }
 
