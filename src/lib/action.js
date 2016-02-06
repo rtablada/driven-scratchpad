@@ -4,16 +4,6 @@ export default class Action {
   after;
   afterAll;
 
-  beforeHooks = [];
-
-  afterHooks = [
-    function(data) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => resolve({data}), 500);
-      });
-    },
-  ];
-
   /**
    * Express Request Object
    */
@@ -68,3 +58,6 @@ export default class Action {
     return instance.createMiddleware();
   }
 }
+
+Action.prototype.beforeHooks = [];
+Action.prototype.afterHooks = [];
