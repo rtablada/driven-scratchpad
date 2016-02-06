@@ -1,4 +1,9 @@
 export default class Action {
+  beforeAll;
+  before;
+  after;
+  afterAll;
+
   beforeHooks = [];
 
   afterHooks = [
@@ -37,8 +42,18 @@ export default class Action {
     return (req, res) => {
       this.request = req;
 
-      const finalResult = [this.handle, ...this.afterHooks].reduce((carry, curr) => {
-        return carry.then((result) => this::curr(result));
+      const hooks = [
+        this.beforeAll,
+        ...this.beforeHooks,
+        this.before,
+        this.handle,
+        this.after,
+        ...this.afterHooks,
+        this.afterAll,
+      ];
+
+      const finalResult = hooks.reduce((carry, curr) => {
+        return curr ? carry.then((result) => this::curr(result)) : carry;
       }, Promise.resolve());
 
       finalResult.then((d) => {
