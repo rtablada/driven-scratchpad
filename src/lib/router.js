@@ -1,9 +1,10 @@
 import express from 'express';
 
 export default class Router {
-  constructor(express, loader, namespace) {
+  constructor(express, container, namespace) {
     this.express = express;
-    this.loader = loader;
+    this.container = container;
+    this.loader = container.loader;
     this.namespace = namespace;
   }
 
@@ -11,7 +12,7 @@ export default class Router {
     const childExpressRouter = new express.Router();
     this.express.use(uri, childExpressRouter);
 
-    const childRouter = new Router(childExpressRouter, this.loader, routeGroupName);
+    const childRouter = new Router(childExpressRouter, this.container, routeGroupName);
 
     cb(childRouter);
   }
@@ -19,9 +20,9 @@ export default class Router {
   get(uri, moduleName) {
     const namespace = this.namespace ? `${this.namespace}/` : '';
 
-    const Action = this.loader.require(`action:${namespace}${this.getModuleName(moduleName)}`);
+    const Action = this.container.loader.require(`action:${namespace}${this.getModuleName(moduleName)}`);
 
-    this.express.use(uri, Action.boot(this.express));
+    this.express.use(uri, Action.boot(this.container));
   }
 
   getModuleName(moduleName) {

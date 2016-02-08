@@ -1,3 +1,9 @@
+export function addToTargetAfterHooks(target, ...hooks) {
+  const existingHooks = target.prototype.afterHooks || [];
+
+  Object.assign(target.prototype, {afterHooks: [...hooks, ...existingHooks]});
+}
+
 export function createCustomizableMixin(cb) {
   return function (...args) {
     return function (target) {
@@ -8,9 +14,13 @@ export function createCustomizableMixin(cb) {
 
 export function createAfterHook(cb) {
   return function (target) {
-    const existingHooks = target.prototype.afterHooks || [];
+    addToTargetAfterHooks(target, cb);
+  };
+}
 
-    Object.assign(target.prototype, {afterHooks: [...existingHooks, cb]});
+export function createCustomizableAfterHook(cb) {
+  return function (...args) {
+    return createAfterHook(cb(...args));
   };
 }
 
