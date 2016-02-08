@@ -32,6 +32,7 @@ router.resource('/courses', 'courses', (router) => {
 });
 
 router.resource('/users', 'users', (router) => {
+  router.get('/:id', 'show');
   router.get('/', 'index');
 });
 

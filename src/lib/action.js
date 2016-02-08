@@ -48,6 +48,10 @@ export default class Action {
 
       finalResult.then((d) => {
         res.send(d);
+      }).catch((d = {}) => {
+        const {status} = d || 500;
+
+        res.status(status).send(d);
       });
     };
   }

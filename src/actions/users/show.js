@@ -1,7 +1,7 @@
 import { jsonApiSupport } from '../../lib/decorators/actions';
 import Action from '../../lib/action';
 
-@jsonApiSupport('users', {collection: true})
+@jsonApiSupport('users')
 export default class CourseIndex extends Action {
 
   /**
@@ -10,6 +10,7 @@ export default class CourseIndex extends Action {
    */
   data() {
     return this.app.db('users')
-      .select(['email', 'id']);
+      .where({id: this.request.params.id})
+      .first(['email', 'id']);
   }
 }
