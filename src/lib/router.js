@@ -18,11 +18,27 @@ export default class Router {
   }
 
   get(uri, moduleName) {
+    this.express.get(uri, this.createActionForModule(moduleName));
+  }
+
+  post(uri, moduleName) {
+    this.express.post(uri, this.createActionForModule(moduleName));
+  }
+
+  put(uri, moduleName) {
+    this.express.put(uri, this.createActionForModule(moduleName));
+  }
+
+  delete(uri, moduleName) {
+    this.express.delete(uri, this.createActionForModule(moduleName));
+  }
+
+  createActionForModule(moduleName) {
     const namespace = this.namespace ? `${this.namespace}/` : '';
 
     const Action = this.container.loader.require(`action:${namespace}${this.getModuleName(moduleName)}`);
 
-    this.express.use(uri, Action.boot(this.container));
+    return Action.boot(this.container);
   }
 
   getModuleName(moduleName) {

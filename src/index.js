@@ -33,8 +33,11 @@ router.resource('/courses', 'courses', (router) => {
 
 router.resource('/users', 'users', (router) => {
   router.get('/:id', 'show');
+  router.delete('/:id', 'destroy');
   router.get('/', 'index');
 });
+
+router.post('/login', 'auth/login');
 
 const server = app.listen(3000, function () {
   console.log('Express listening on port 3000');
