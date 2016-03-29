@@ -1,0 +1,11 @@
+
+exports.up = function(knex, Promise) {
+  return knex.schema.createTableIfNotExists('aliases', (table) => {
+    table.increments();
+    table.string('name');
+  });
+};
+
+exports.down = function(knex, Promise) {
+  return knex.schema.dropTable('aliases');
+};
