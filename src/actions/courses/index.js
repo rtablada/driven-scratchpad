@@ -2,13 +2,13 @@ import { createAfterHook } from '../../lib/decorators/action-hook-helpers';
 
 import Action from '../../lib/action';
 
-const mutData = createAfterHook(function(data) {
+const slowDown = createAfterHook(function(data) {
   return new Promise((resolve, reject) => {
     setTimeout(() => resolve({data}), 800);
   });
 });
 
-@mutData
+@slowDown
 export default class CourseIndex extends Action {
 
   /**
