@@ -16,8 +16,6 @@ export default class CourseIndex extends Action {
    * @return {any} POJO or Promise of data
    */
   data() {
-    console.log(this.afterHooks);
-
     return [
       {
         type: 'courses',
